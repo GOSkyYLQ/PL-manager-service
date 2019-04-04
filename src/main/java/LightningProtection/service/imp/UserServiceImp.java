@@ -13,10 +13,10 @@ public class UserServiceImp implements UserService {
     @Autowired
     private UserMapper userMapper;
 
-    @Override
+    /*@Override
     public int userRegister(ta_auth_user adduser){
         return userMapper.userRegister(adduser);
-    }
+    }*/
 
     @Override
     public boolean userLogin(String username,String password){

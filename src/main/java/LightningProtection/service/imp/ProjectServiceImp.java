@@ -7,6 +7,7 @@ import LightningProtection.service.ProjectService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import common.pojo.EasyUIDataGridResult;
+import common.pojo.PLResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +42,11 @@ public class ProjectServiceImp implements ProjectService {
         result.setTotal(pageInfo.getTotal());
         result.setRows(list);
         return result;
+    }
+
+    @Override
+    public PLResult deleteProjectById(Long id) {
+        projectMapper.deleteByPrimaryKey(id);
+        return PLResult.ok();
     }
 }

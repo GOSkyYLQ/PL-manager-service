@@ -19,11 +19,11 @@ public class ProjectServiceImp implements ProjectService {
     private ProjectMapper projectMapper;
 
     @Override
-    public ta_project getProjectById(int id){
+    public ta_project getProjectByExample(String pro_name){
         //ta_project taProject = projectMapper.selectByPrimaryKey(id);
         ta_projectExample example = new ta_projectExample();
         ta_projectExample.Criteria criteria = example.createCriteria();
-        criteria.andIdEqualTo(id);
+        criteria.andPro_nameEqualTo(pro_name);
         List<ta_project> list = projectMapper.selectByExample(example);
         ta_project taProject = null;
         if(list != null && list.size() > 0){
@@ -33,9 +33,12 @@ public class ProjectServiceImp implements ProjectService {
     }
 
     @Override
-    public EasyUIDataGridResult getProjectList(int page, int rows){
+    public EasyUIDataGridResult getProjectList(int page, int rows,String pro_name,String pro_header){
         PageHelper.startPage(page,rows);
         ta_projectExample example = new ta_projectExample();
+        ta_projectExample.Criteria criteria = example.createCriteria();
+        criteria.andPro_nameEqualTo(pro_name);
+        criteria.andPro_headerEqualTo(pro_header);
         List<ta_project> list = projectMapper.selectByExample(example);
         PageInfo<ta_project> pageInfo = new PageInfo<>(list);
         EasyUIDataGridResult result = new EasyUIDataGridResult();
@@ -46,7 +49,10 @@ public class ProjectServiceImp implements ProjectService {
 
     @Override
     public PLResult deleteProjectById(Long id) {
-        projectMapper.deleteByPrimaryKey(id);
-        return PLResult.ok();
+        if(projectMapper.deleteByPrimaryKey(id)) {
+            return PLResult.ok();
+        }else {
+            return null;
+        }
     }
 }

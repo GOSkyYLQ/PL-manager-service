@@ -33,12 +33,9 @@ public class ProjectServiceImp implements ProjectService {
     }
 
     @Override
-    public EasyUIDataGridResult getProjectList(int page, int rows,String pro_name,String pro_header){
+    public EasyUIDataGridResult getProjectList(int page, int rows){
         PageHelper.startPage(page,rows);
         ta_projectExample example = new ta_projectExample();
-        ta_projectExample.Criteria criteria = example.createCriteria();
-        criteria.andPro_nameEqualTo(pro_name);
-        criteria.andPro_headerEqualTo(pro_header);
         List<ta_project> list = projectMapper.selectByExample(example);
         PageInfo<ta_project> pageInfo = new PageInfo<>(list);
         EasyUIDataGridResult result = new EasyUIDataGridResult();
@@ -54,5 +51,10 @@ public class ProjectServiceImp implements ProjectService {
         }else {
             return null;
         }
+    }
+
+    @Override
+    public void addProject(ta_project taproject){
+        projectMapper.insertSelective(taproject);
     }
 }
